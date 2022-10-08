@@ -47,6 +47,9 @@ def compare(targetImage,mypath = 'assets'):
     if maxScore >= -1:
         return targetLetter[0]
 
+def solver(pBox , word):
+    pass
+
 # print the puzzle box in right format
 def print_puzzle_box(pBox):
     for i in range(ROW):
@@ -54,38 +57,41 @@ def print_puzzle_box(pBox):
             print(pBox[(i * COLUMN) + j] ,end=' ')
         print()
 
-while True:
-    # take screenshot of puzzle box 
-    sct_img = sct.grab(bounding_box)
-    # convert screenshot to numpy array
-    img = np.array(sct_img)
-    # vertical distance between each alphabets in puzzle box
-    vertival_devider = 35
-    # hor distance between each alphabets in puzzle box
-    hor_devider = 35
-    
-    puzzle_box = []
-    
-    print("[*]  Scanning puzzle box ...")
-    
-    # for loop on each alphabet of puzzle box
-    for i in range(ROW):
-        for j in range(COLUMN):
-            # cut the target alphabet
-            alphabet = img[i*vertival_devider:(i+1)*vertival_devider , (j)*hor_devider:(j+1)*hor_devider]
-            # write target alphabet as cache file
-            cv2.imwrite('cache/%d%d.png'%(i,j),alphabet )
-            # compare it with assets
-            res = compare('%d%d.png'%(i,j))
-            # add the alphabet to our box
-            puzzle_box.append(res)
-    # print the puzzle box after scan        
-    print_puzzle_box(puzzle_box)   
-    
-    break
-    cv2.imshow('screen' , img)
+# take screenshot of puzzle box 
+sct_img = sct.grab(bounding_box)
+# convert screenshot to numpy array
+img = np.array(sct_img)
+# vertical distance between each alphabets in puzzle box
+vertival_devider = 35
+# hor distance between each alphabets in puzzle box
+hor_devider = 35
 
-    if (cv2.waitKey(1) & 0xFF) == ord('q'):
-        cv2.des
-    
-    time.sleep(1)
+puzzle_box = []
+
+print("[*]  Scanning puzzle box ...")
+
+# for loop on each alphabet of puzzle box
+for i in range(ROW):
+    for j in range(COLUMN):
+        # cut the target alphabet
+        alphabet = img[i*vertival_devider:(i+1)*vertival_devider , (j)*hor_devider:(j+1)*hor_devider]
+        # write target alphabet as cache file
+        cv2.imwrite('cache/%d%d.png'%(i,j),alphabet )
+        # compare it with assets
+        res = compare('%d%d.png'%(i,j))
+        # add the alphabet to our box
+        puzzle_box.append(res)
+# print the puzzle box after scan        
+print_puzzle_box(puzzle_box)   
+
+# count number of input words
+word_number = 1
+# get words from user
+while True:
+    word = input("input word number%d or press q for quit: "%(word_number))
+    # if target word == q exit from app
+    if word == 'q':
+        exit(0)
+    # solve the puzzle
+    result = solver(puzzle_box , word)
+    word_number += 1
