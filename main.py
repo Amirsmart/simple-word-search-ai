@@ -47,31 +47,41 @@ def compare(targetImage,mypath = 'assets'):
     if maxScore >= -1:
         return targetLetter[0]
 
-
+# print the puzzle box in right format
+def print_puzzle_box(pBox):
+    for i in range(ROW):
+        for j in range(COLUMN):
+            print(pBox[(i * COLUMN) + j] ,end=' ')
+        print()
 
 while True:
     # take screenshot of puzzle box 
     sct_img = sct.grab(bounding_box)
     # convert screenshot to numpy array
     img = np.array(sct_img)
-    # vertical distance between each words in puzzle box
+    # vertical distance between each alphabets in puzzle box
     vertival_devider = 35
-    # hor distance between each words in puzzle box
+    # hor distance between each alphabets in puzzle box
     hor_devider = 35
     
-    # for loop on each word of puzzle box
+    puzzle_box = []
+    
+    print("[*]  Scanning puzzle box ...")
+    
+    # for loop on each alphabet of puzzle box
     for i in range(ROW):
         for j in range(COLUMN):
-            # cut the target word
-            word = img[i*vertival_devider:(i+1)*vertival_devider , (j)*hor_devider:(j+1)*hor_devider]
-            # write target word as cache file
-            cv2.imwrite('cache/%d%d.png'%(i,j),word )
+            # cut the target alphabet
+            alphabet = img[i*vertival_devider:(i+1)*vertival_devider , (j)*hor_devider:(j+1)*hor_devider]
+            # write target alphabet as cache file
+            cv2.imwrite('cache/%d%d.png'%(i,j),alphabet )
             # compare it with assets
             res = compare('%d%d.png'%(i,j))
-            # print the result
-            print(res  , end=' ')
-                
-        print()
+            # add the alphabet to our box
+            puzzle_box.append(res)
+    # print the puzzle box after scan        
+    print_puzzle_box(puzzle_box)   
+    
     break
     cv2.imshow('screen' , img)
 
