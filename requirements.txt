@@ -1,0 +1,6 @@
+colored==1.4.3
+mss==6.1.0
+numpy==1.22.3
+opencv_python==4.6.0.66
+scikit_image==0.19.3
+skimage==0.0
